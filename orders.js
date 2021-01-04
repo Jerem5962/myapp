@@ -1,6 +1,6 @@
 const express = require('express')
 var router = express.Router()
-var id = require('uuid')
+var idUuid = require('uuid')
 
 router.get('/', (req, res) => {
   console.log(
@@ -12,7 +12,14 @@ router.get('/', (req, res) => {
 })
 
 router.get('/id', (req, res) => {
-  res.send('coming-soon' + id.v4() )
+  id = idUuid.v4()
+  console.log(
+    '\n' + 'Date actuelle: ' + Date.now() + '\n',
+    'URL: ' + req.baseUrl + req.url+ '\n',
+    'Méthod: ' + req.method + '\n',
+    'id: ' + id
+  )
+  res.send('voici l\'order ID: ' + id)
 })
 
 module.exports = router
