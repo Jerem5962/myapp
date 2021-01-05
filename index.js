@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
   res.send('Nous sommes sur la page d\'accueil de Jérémy Lobry-D')
 })
 app.get('*', (req, res) => {
-  res.send('page 404')
+  res.status(404).send('page 404')
 })
 
 app.listen(port, () => {
