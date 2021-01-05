@@ -1,12 +1,8 @@
 const express = require('express')
-const app = express()
-const port = 3000
 var routerHome = require('./router')
 var routerOrders = require('./orders')
-
-// app.use(function time(req, res, next) {
-//   console.log(Date.now())  
-// })
+const app = express()
+const port = 3000
 
 app.use('/home', routerHome)
 app.use('/orders', routerOrders)
