@@ -1,24 +1,14 @@
 const express = require('express')
 var router = express.Router()
 var idUuid = require('uuid')
-const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const Order = require('./order')
-const order = require('./order')
 require('dotenv').config()
-db = process.env.DB_MONGO
+let ejs = require('ejs')
+const log = require('./functions/functions')
 
-router.use(bodyParser.urlencoded({extended: true}))
-router.use(bodyParser.json())
 
-router.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-requested-With, Content, Accept, Content-Type, Authorization')
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
-  next()
-})
-
-mongoose.connect(db, 
+mongoose.connect(process.env.DB_MONGO, 
   {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -31,27 +21,17 @@ mongoose.connect(db,
   })
 
 router.get('/', (req, res) => {
-  console.log(
-    '\n' + 'Date actuelle: ' + Date.now() + '\n',
-    'URL: ' + req.baseUrl + '\n',
-    'Méthod: ' + req.method
-  )
-  orders = Order.find(() => {
-    if (orders) {
-      console.log(orders)
-    }
-  })
+  log.loggerDateUrl(req)
+  orders = Order.find()
+    .then(orders => res.status(200).render('orders/orders', {orders: orders}))
+})
+
+router.get('/create', (req, res) => {
+  res.status(200).render('orders/form')
 })
 
 router.get('/:id', (req, res) => {
-  //id = idUuid.v4()
   id = req.params.id
-  console.log(
-    '\n' + 'Date actuelle: ' + Date.now() + '\n',
-    'URL: ' + req.baseUrl + req.url+ '\n',
-    'Méthod: ' + req.method + '\n',
-    'id: ' + id
-  )
   const order = Order.findById({_id: id})
   order.then((order) => {
     console.log(order)
@@ -65,16 +45,16 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
   id = idUuid.v4()
+  console.log(req)
   const order = new Order({
-    description: "test",
-    imageUrl: 'test.url',
+    description: req.body.description,
+    imageUrl: req.body.imageUrl,
     userId: id,
-    price: Math.random()
+    price: req.body.price
   })
   order.save()
   .then(() => {
-    res.send('Order avec description: ' + order.description + ' créé et id: ' + order.id)
-    console.log(order.schema) 
+    res.redirect('/orders')
   })
   .catch((err) => {
     console.log("Erreur survenue: " + err)

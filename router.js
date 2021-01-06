@@ -1,12 +1,9 @@
 const express = require('express')
+const { log } = require('./functions/functions')
 var router = express.Router()
 
 router.get('/', (req, res) => {
-  console.log(
-      '\n' + 'Date actuelle: ' + Date.now() + '\n',
-      'URL: ' + req.baseUrl + '\n',
-      'Méthod: ' + req.method
-      )
+  log.logger(req)
   res.send('jeremy') 
 })
 

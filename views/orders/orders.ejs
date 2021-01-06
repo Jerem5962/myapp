@@ -1,0 +1,17 @@
+<%- include('../home/header'); %>
+  <main>
+    <div class="jumbotron">
+      <h1>La Cantinière</h1>
+      <p>Liste des commandes</p>
+    </div>
+    <div class="list-group">
+      <% if (orders) { %>
+        <% orders.forEach((order) => { %>
+          <a href="#" class="list-group-item list-group-item-action" aria-current="true">
+            <%= order.description %>
+          </a>
+        <% }); %>
+      <% } %>
+    </div>
+  </main>
+<%- include('../home/footer'); %>

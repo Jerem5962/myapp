@@ -1,0 +1,28 @@
+<%- include('../home/header'); %>
+  <main>
+    <div class="jumbotron">
+      <h1>La Cantinière</h1>
+      <p>Ajout d'une commande</p>
+    </div>
+
+    <div class="col-6 m-auto">
+      <form action="/orders/" method="POST" name="formOrder">
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <input type="text" class="form-control" id="description" name="description">
+      </div>
+      <div class="mb-3">
+        <label for="imageUrl" class="form-label">Image</label>
+        <input type="text" class="form-control" id="imageUrl" name="imageUrl" aria-describedby="imgHelp">
+        <div id="imgHelp" class="form-text">Indiquez une url valide</div>
+      </div>
+      <div class="mb-3">
+        <label for="price" class="form-label">Prix</label>
+        <input type="number" class="form-control" id="price" name="price">
+      </div>
+      <button type="submit" href="/orders" class="btn btn-primary">Valider</button>
+    </form>
+    </div>
+    
+  </main>
+<%- include('../home/footer'); %>
